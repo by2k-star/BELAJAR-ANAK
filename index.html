@@ -1,0 +1,1822 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<base target="_top">
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="
+width=device-width,
+initial-scale=1,
+maximum-scale=1,
+user-scalable=no,
+viewport-fit=cover">
+
+<title>Aplikasi Belajar</title>
+
+<style>
+  
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Comic Sans MS',sans-serif;
+}
+
+body{
+
+  min-height:100vh;
+
+  background:
+  linear-gradient(
+    135deg,
+    #74ebd5,
+    #ACB6E5
+  );
+
+  padding:20px;
+
+}
+
+.page{
+  display:none;
+}
+
+.active{
+  display:block;
+}
+
+.box{
+
+  max-width:550px;
+
+  margin:auto;
+
+  margin-top:30px;
+
+  background:white;
+
+  border-radius:35px;
+
+  padding:35px;
+
+  box-shadow:
+  0 15px 35px rgba(0,0,0,.15);
+
+  animation:muncul .5s;
+
+  position:relative;
+
+  overflow:hidden;
+
+}
+
+.box::before{
+
+  content:'';
+
+  position:absolute;
+
+  top:-50px;
+  right:-50px;
+
+  width:150px;
+  height:150px;
+
+  background:#FFD93D;
+
+  border-radius:50%;
+
+  opacity:.3;
+
+}
+
+.box::after{
+
+  content:'';
+
+  position:absolute;
+
+  bottom:-60px;
+  left:-60px;
+
+  width:180px;
+  height:180px;
+
+  background:#6C63FF;
+
+  border-radius:50%;
+
+  opacity:.15;
+
+}
+
+@keyframes muncul{
+
+  from{
+    opacity:0;
+    transform:
+    translateY(30px)
+    scale(.9);
+  }
+
+  to{
+    opacity:1;
+    transform:
+    translateY(0)
+    scale(1);
+  }
+
+}
+
+h1{
+
+  color:#6C63FF;
+
+  margin-bottom:10px;
+
+  font-size:38px;
+
+}
+
+p{
+
+  color:#666;
+
+  margin-bottom:20px;
+
+}
+
+input{
+
+  width:100%;
+
+  padding:16px;
+
+  border:none;
+
+  border-radius:18px;
+
+  margin-top:15px;
+
+  background:#f2f5ff;
+
+  font-size:17px;
+
+  outline:none;
+
+}
+
+button{
+
+  width:100%;
+
+  padding:16px;
+
+  margin-top:15px;
+
+  border:none;
+
+  border-radius:18px;
+
+  background:
+  linear-gradient(
+    45deg,
+    #6C63FF,
+    #8E7CFF
+  );
+
+  color:white;
+
+  font-size:18px;
+
+  font-weight:bold;
+
+  cursor:pointer;
+
+  transition:.25s;
+
+  box-shadow:
+  0 8px 15px rgba(108,99,255,.3);
+
+}
+
+button:hover{
+
+  transform:
+  translateY(-3px)
+  scale(1.02);
+
+}
+
+.soal{
+
+  font-size:30px;
+
+  font-weight:bold;
+
+  color:#444;
+
+  margin:20px 0;
+
+}
+
+#progress{
+
+  background:#EEF2FF;
+
+  padding:12px;
+
+  border-radius:15px;
+
+  margin-bottom:15px;
+
+  color:#6C63FF;
+
+  font-weight:bold;
+
+}
+
+#gambarSoal {
+  width: 100%;          /* Mengikuti lebar maksimal kotak kuis */
+  max-width: 320px;     /* Membatasi agar gambar tidak melebar terlalu besar */
+  height: auto;         /* Tinggi gambar otomatis menyesuaikan agar tidak gepeng */
+  max-height: 200px;    /* Batas tinggi maksimal gambar agar tidak memakan tempat */
+  object-fit: contain;  /* Gambar akan mengecil proporsional tanpa terpotong (aman untuk Drive) */
+  background-color: #f8f9fa; /* Warna latar belakang halus jika gambar asli terlalu tegak/kurus */
+  border-radius: 20px;  /* Sudut gambar melengkung halus */
+  margin: 0 auto 20px auto; /* Membuat gambar otomatis berada di posisi tengah */
+  display: block;       /* Memastikan gambar berstatus block agar margin auto berfungsi */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1); /* Efek bayangan lembut di bawah gambar */
+}
+
+.skor{
+
+  font-size:35px;
+
+  font-weight:bold;
+
+  color:#6C63FF;
+
+  margin:20px 0;
+
+}
+
+html,body{
+
+  width:100%;
+  height:100%;
+  overflow-x:hidden;
+
+}
+
+body{
+
+  padding:10px;
+  -webkit-user-select:none;
+  user-select:none;
+
+}
+
+.box{
+
+  width:100%;
+  max-width:100%;
+  margin-top:10px;
+  border-radius:25px;
+  padding:20px;
+
+}
+
+button{
+
+  font-size:16px;
+
+}
+
+input{
+
+  font-size:16px;
+
+}
+
+/* MODE HP */
+
+@media screen and (max-width:600px){
+
+  h1{
+
+    font-size:28px;
+
+  }
+
+  .soal{
+
+    font-size:24px;
+
+  }
+
+  button{
+
+    padding:14px;
+
+    font-size:16px;
+
+  }
+
+  #gambarSoal{
+
+    max-height:180px;
+
+  }
+
+}
+
+</style>
+
+</head>
+
+<body id="body">
+
+<audio id="benarSound">
+<source src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3">
+</audio>
+
+<audio id="salahSound">
+<source src="https://assets.mixkit.co/active_storage/sfx/2955/2955-preview.mp3">
+</audio>
+
+<div id="loading"
+style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(255,255,255,.8);
+z-index:999;
+justify-content:center;
+align-items:center;
+font-size:30px;
+font-weight:bold;
+">
+
+
+Loading...
+
+
+</div>
+
+
+<!-- LOGIN -->
+
+<div id="loginPage"
+class="page active">
+
+<div class="box">
+
+<h1>📚 Login Siswa</h1>
+
+<select id="avatar"
+style="
+width:100%;
+padding:15px;
+border:none;
+border-radius:15px;
+margin-top:15px;
+background:#f2f5ff;
+font-size:16px;
+">
+
+<option value="👦">
+👦 Laki-Laki
+</option>
+
+<option value="👧">
+👧 Perempuan
+</option>
+
+<option value="🧑">
+🧑 Random
+</option>
+
+<option value="🦸">
+🦸 Superhero
+</option>
+
+<option value="🧙">
+🧙 Penyihir
+</option>
+
+</select>
+
+<input
+type="text"
+id="username"
+placeholder="Username">
+
+<input
+type="password"
+id="password"
+placeholder="Password">
+
+<button onclick="login()">
+MASUK
+</button>
+
+</div>
+
+</div>
+
+<!-- DASHBOARD -->
+
+<div id="dashboardPage"
+class="page">
+
+<div class="box">
+
+<h1 id="namaSiswa">
+👦 Halo 👋
+</h1>
+
+<p>
+Selamat datang di aplikasi belajar SD
+</p>
+
+<div style="margin-top:30px; margin-bottom:25px;">
+
+<button
+onclick="toggleDarkMode()"
+
+style="
+margin-top:0;
+">
+🌙 Dark Mode
+</button>
+
+</div>
+
+<div style="
+background:#EEF2FF;
+padding:15px;
+border-radius:20px;
+margin-bottom:20px;
+">
+
+<div style="
+font-size:24px;
+font-weight:bold;
+color:#6C63FF;
+margin-bottom:10px;
+">
+⭐ Level
+<span id="levelText">
+1
+</span>
+</div>
+
+<div style="
+font-size:18px;
+margin-bottom:10px;
+">
+XP :
+<span id="xpText">
+0
+</span>
+/ 100
+</div>
+
+<div style="
+width:100%;
+height:18px;
+background:#ddd;
+border-radius:20px;
+overflow:hidden;
+">
+
+<div id="xpBar"
+style="
+width:0%;
+height:100%;
+background:linear-gradient(
+45deg,
+#FFD93D,
+#FFB800
+);
+transition:.5s;
+">
+</div>
+
+</div>
+
+</div>
+
+<div id="mapelContainer">
+Loading...
+</div>
+
+<button
+id="adminBtn"
+onclick="showPage('adminPage')"
+style="display:none;">
+🛠️ Admin Panel
+</button>
+
+<button onclick="logout()">
+🚪 Logout
+</button>
+
+</div>
+
+<div class="box">
+
+<h1>🏆 Leaderboard</h1>
+
+<div id="leaderboard">
+Loading...
+</div>
+
+</div>
+
+</div>
+
+<!-- QUIZ -->
+
+<div id="quizPage"
+class="page">
+
+<div class="box">
+
+<h1 style="
+font-size:35px;
+color:#6C63FF;
+">
+🧮 Kuis Pintar Anak 🎉
+</h1>
+
+<div style="
+margin-bottom:15px;
+">
+
+<div style="
+display:flex;
+justify-content:space-between;
+margin-bottom:8px;
+font-weight:bold;
+color:#6C63FF;
+">
+
+<span id="progressText">
+Soal 1 / 100
+</span>
+
+<span id="progressPersen">
+0%
+</span>
+
+</div>
+
+<div style="
+width:100%;
+height:20px;
+background:#e5e7ff;
+border-radius:20px;
+overflow:hidden;
+">
+
+<div id="progressBar"
+style="
+width:0%;
+height:100%;
+background:linear-gradient(
+45deg,
+#6C63FF,
+#8E7CFF
+);
+transition:.4s;
+">
+</div>
+
+</div>
+
+</div>
+
+<div id="timerBox"
+style="
+margin-bottom:15px;
+background:#ffe9a8;
+padding:12px;
+border-radius:15px;
+font-size:22px;
+font-weight:bold;
+color:#ff6b00;
+text-align:center;
+">
+⏱️ 15
+</div>
+
+<div id="nyawaBox"
+style="
+margin-bottom:15px;
+font-size:28px;
+text-align:center;
+">
+❤️ ❤️ ❤️
+</div>
+
+<div class="soal"
+id="soal">
+Soal
+</div>
+
+<img id="gambarSoal" src="" alt="Gambar Soal">
+
+<div id="pilihan">
+</div>
+
+</div>
+
+</div>
+
+<!-- HASIL -->
+
+<div id="hasilPage"
+class="page">
+
+<div class="box">
+
+<h1>🎉 Quiz Selesai 🎉</h1>
+
+<div class="skor"
+id="skorAkhir">
+0
+</div>
+
+<button onclick="ulangQuiz()">
+🔄 Main Lagi
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+let soal = [];
+
+let mapelAktif = '';
+
+let indexSoal = 0;
+
+let skor = 0;
+
+let xp = 0;
+
+let level = 1;
+
+let timer;
+let waktu = 600;
+let nyawa = 3;
+
+function showPage(id){
+
+  document
+  .querySelectorAll('.page')
+  .forEach(p=>p.classList.remove('active'));
+
+  document
+  .getElementById(id)
+  .classList.add('active');
+
+  if(id == 'dashboardPage'){
+
+  loadLeaderboard();
+
+  loadMapel();
+
+}
+
+}
+
+function login(){
+
+  let username =
+  document.getElementById('username').value;
+
+  let password =
+  document.getElementById('password').value;
+
+  let avatar =
+  document.getElementById('avatar').value;
+
+  if(username == '' || password == ''){
+
+    Swal.fire({
+      icon:'warning',
+      title:'Oops',
+      text:'Isi username dan password'
+    });
+
+    return;
+
+  }
+
+  document.getElementById(
+    'loading'
+  ).style.display = 'flex';
+
+  google.script.run
+  .withSuccessHandler(function(res){
+
+    document.getElementById(
+      'loading'
+    ).style.display = 'none';
+
+    if(res.status){
+
+      localStorage.setItem(
+        'nama',
+        res.nama
+      );
+
+      localStorage.setItem(
+      'role',
+      res.role
+      );
+
+      // CEK ADMIN
+if(res.role == 'admin'){
+
+  document.getElementById(
+  'adminBtn'
+  ).style.display = 'block';
+
+}else{
+
+  document.getElementById(
+  'adminBtn'
+  ).style.display = 'none';
+
+}
+
+      console.log(
+      localStorage.getItem('nama')
+      );
+
+      localStorage.setItem(
+      'avatar',
+      avatar
+      );
+
+      let av =
+localStorage.getItem('avatar');
+
+document.getElementById(
+'namaSiswa'
+).innerText =
+
+av+' Halo '+res.nama+' 👋';
+
+      Swal.fire({
+
+        icon:'success',
+
+        title:'Login Berhasil',
+
+        text:'Selamat datang '+res.nama,
+
+        confirmButtonColor:'#6C63FF'
+
+      });
+
+      showPage('dashboardPage');
+
+      console.log(
+'LOGIN NAMA:',
+localStorage.getItem('nama')
+);
+
+      loadMapel();
+
+      loadLeaderboard();
+
+    }else{
+
+      Swal.fire({
+
+        icon:'error',
+
+        title:'Login Gagal',
+
+        text:'Username atau password salah'
+
+      });
+
+    }
+
+  })
+  .login(username,password);
+
+}
+
+function loadMapel(){
+
+  google.script.run
+
+  .withSuccessHandler(function(data){
+
+    console.log(data);
+
+    let html = '';
+
+    for(let i=0;i<data.length;i++){
+
+      html += `
+
+      <button onclick="mulaiQuiz('${data[i]}')">
+
+        📚 ${data[i]}
+
+      </button>
+
+      `;
+
+    }
+
+    document.getElementById(
+      'mapelContainer'
+    ).innerHTML = html;
+
+  })
+
+  .withFailureHandler(function(err){
+
+    console.log(err);
+
+    alert('Gagal load mapel');
+
+  })
+
+  .getMapel();
+
+}
+
+function mulaiQuiz(mapel){
+
+  mapelAktif = mapel;
+
+  document.getElementById(
+    'loading'
+  ).style.display = 'flex';
+
+  google.script.run
+  .withSuccessHandler(function(data){
+
+    console.log(data);
+
+    document.getElementById(
+      'loading'
+    ).style.display = 'none';
+
+    console.log(data);
+
+    soal = data.filter(function(item){
+
+      return item.mapel
+      .toLowerCase()
+      .trim() == mapel
+      .toLowerCase()
+      .trim();
+
+    });
+
+    if(soal.length == 0){
+
+      Swal.fire({
+
+        icon:'warning',
+
+        title:'Soal Kosong',
+
+        text:'Belum ada soal untuk mapel ini'
+
+      });
+
+      return;
+
+    }
+
+    soal.sort(function(){
+
+      return 0.5 - Math.random();
+
+    });
+
+    // BATAS JUMLAH SOAL
+    soal = soal.slice(0,100);
+
+    indexSoal = 0;
+
+    skor = 0;
+
+    nyawa = 3;
+
+    document.getElementById(
+      'nyawaBox'
+    ).innerHTML =
+    '❤️ ❤️ ❤️';
+
+    showPage('quizPage');
+
+    tampilSoal();
+
+  })
+
+  .getQuestions();
+
+}
+
+function tampilSoal(){
+
+  let s =
+  soal[indexSoal];
+  s.pilihan.sort(function(){
+
+  return 0.5 - Math.random();
+
+});
+
+  clearInterval(timer);
+
+waktu = 600;
+
+document.getElementById(
+'timerBox'
+).innerHTML =
+'⏱️ '+waktu;
+
+timer = setInterval(function(){
+
+  waktu--;
+
+  document.getElementById(
+  'timerBox'
+  ).innerHTML =
+  '⏱️ '+waktu;
+
+  if(waktu <= 0){
+
+    clearInterval(timer);
+
+    Swal.fire({
+
+      icon:'warning',
+
+      title:'⏰ Waktu Habis',
+
+      text:'Jawaban dianggap salah',
+
+      confirmButtonColor:'#ff9800'
+
+    });
+
+    indexSoal++;
+
+    setTimeout(function(){
+
+      if(indexSoal < soal.length){
+
+        tampilSoal();
+
+      }else{
+
+        selesaiQuiz();
+
+      }
+
+    },1000);
+
+  }
+
+},1000);
+
+  document.getElementById(
+    'soal'
+  ).innerText =
+  s.soal;
+
+  // gambar
+
+  if(s.gambar){
+
+    document.getElementById(
+      'gambarSoal'
+    ).style.display =
+    'block';
+
+    document.getElementById(
+      'gambarSoal'
+    ).src =
+    s.gambar;
+
+  }else{
+
+    document.getElementById(
+      'gambarSoal'
+    ).style.display =
+    'none';
+
+  }
+
+  let persen =
+((indexSoal+1) / soal.length) * 100;
+
+document.getElementById(
+'progressText'
+).innerText =
+
+'Soal '+
+(indexSoal+1)+
+' / '+
+soal.length;
+
+document.getElementById(
+'progressPersen'
+).innerText =
+
+Math.round(persen)+'%';
+
+document.getElementById(
+'progressBar'
+).style.width =
+
+persen+'%';
+
+  let html = '';
+
+  s.pilihan.forEach(function(p){
+
+    html += `
+    <button onclick="cekJawaban('${p}')">
+      ${p}
+    </button>
+    `;
+
+  });
+
+  document.getElementById(
+    'pilihan'
+  ).innerHTML =
+  html;
+
+}
+
+function cekJawaban(jawaban){
+
+  clearInterval(timer);
+
+  let benar =
+  soal[indexSoal].benar;
+
+  if(jawaban == benar){
+
+    skor++;
+    confetti({
+
+  particleCount:150,
+
+  spread:100,
+
+  origin:{ y:0.6 }
+
+});
+    document.getElementById(
+   'benarSound'
+    ).play();
+
+    Swal.fire({
+
+      icon:'success',
+
+      title:'🎉 Hebat!',
+
+      text:'Jawaban Kamu Benar',
+
+      confirmButtonColor:'#6C63FF'
+
+    });
+
+  }else{
+
+    document.getElementById(
+     'salahSound'
+    ).play();
+    nyawa--;
+
+let hati = '';
+
+for(let i=0;i<nyawa;i++){
+
+  hati += '❤️ ';
+
+}
+
+if(nyawa <= 0){
+
+  Swal.fire({
+
+    icon:'error',
+
+    title:'💀 Game Over',
+
+    text:'Nyawa kamu habis',
+
+    confirmButtonColor:'#ff0000'
+
+  });
+
+  selesaiQuiz();
+
+  return;
+
+}
+
+document.getElementById(
+'nyawaBox'
+).innerHTML =
+hati;
+
+    Swal.fire({
+
+      icon:'error',
+
+      title:'😢 Yah Salah',
+
+      text:'Jawaban benar : '+benar,
+
+      confirmButtonColor:'#ff6b6b'
+
+    });
+
+  }
+
+  indexSoal++;
+
+  setTimeout(function(){
+
+    if(indexSoal < soal.length){
+
+      tampilSoal();
+
+    }else{
+
+      selesaiQuiz();
+
+    }
+
+  },1000);
+
+}
+
+
+
+
+function selesaiQuiz(){
+
+  showPage('hasilPage');
+
+  let bintang = '';
+
+  let nilai =
+  (skor / soal.length) * 100;
+
+  xp += skor * 10;
+
+  if(xp >= 100){
+
+    level++;
+
+    xp = xp - 100;
+
+    Swal.fire({
+
+      icon:'success',
+
+      title:'🎉 LEVEL UP',
+
+      text:'Kamu naik ke Level '+level,
+
+      confirmButtonColor:'#6C63FF'
+
+    });
+
+  }
+
+  document.getElementById(
+  'levelText'
+  ).innerText =
+  level;
+
+  document.getElementById(
+  'xpText'
+  ).innerText =
+  xp;
+
+  document.getElementById(
+  'xpBar'
+  ).style.width =
+  xp+'%';
+
+  if(nilai >= 80){
+
+    bintang = '⭐⭐⭐';
+
+  }else if(nilai >= 50){
+
+    bintang = '⭐⭐';
+
+  }else{
+
+    bintang = '⭐';
+
+  }
+
+  let nama =
+localStorage.getItem('nama');
+
+console.log('nama:',nama);
+console.log('mapel:',mapelAktif);
+console.log('skor:',skor);
+
+google.script.run
+
+.withSuccessHandler(function(res){
+
+  console.log('SAVE:',res);
+
+  loadLeaderboard();
+
+})
+
+.withFailureHandler(function(err){
+
+  console.log('ERROR:',err);
+
+})
+
+.saveScore(
+
+  nama,
+  mapelAktif,
+  skor
+
+);
+
+  document.getElementById(
+    'skorAkhir'
+  ).innerHTML =
+
+  `
+  <div style="
+  font-size:50px;
+  margin-bottom:20px;
+  ">
+  ${bintang}
+  </div>
+
+  Skor : ${skor} / ${soal.length}
+
+  <br><br>
+
+  Nilai : ${nilai}
+  `;
+
+}
+
+function ulangQuiz(){
+
+  showPage('dashboardPage');
+
+  loadMapel();
+
+  loadLeaderboard();
+
+}
+
+function loadLeaderboard(){
+
+  google.script.run
+  .withSuccessHandler(function(data){
+
+    console.log(data);
+
+    let html = '';
+
+    if(!data || data.length == 0){
+
+      html = `
+      <div style="
+      padding:15px;
+      background:#f3f3ff;
+      border-radius:15px;
+      ">
+      Belum ada nilai
+      </div>
+      `;
+
+    }else{
+
+      data.forEach(function(item,i){
+
+        html += `
+        <div style="
+          background:#f3f3ff;
+          padding:12px;
+          border-radius:12px;
+          margin-top:10px;
+          text-align:left;
+          font-size:18px;
+        ">
+
+          🏆 ${i+1}. ${item[0]}
+
+          <br>
+
+          📚 ${item[1]}
+
+          <br>
+
+          ⭐ Skor : ${item[2]}
+
+        </div>
+        `;
+
+      });
+
+    }
+
+    document.getElementById(
+      'leaderboard'
+    ).innerHTML = html;
+
+  })
+
+  .withFailureHandler(function(err){
+
+    console.log(err);
+
+    document.getElementById(
+      'leaderboard'
+    ).innerHTML =
+
+    `
+    <div style="
+    color:red;
+    padding:15px;
+    ">
+    Error Leaderboard
+    </div>
+    `;
+
+  })
+
+  .getLeaderboard();
+
+}
+
+function toggleDarkMode(){
+
+  let body =
+  document.getElementById('body');
+
+  if(body.style.background == 'black'){
+
+    body.style.background =
+    'linear-gradient(135deg,#74ebd5,#ACB6E5)';
+
+    document.querySelectorAll('.box')
+    .forEach(function(box){
+
+      box.style.background =
+      'white';
+
+      box.style.color =
+      'black';
+
+    });
+
+  }else{
+
+    body.style.background =
+    'black';
+
+    document.querySelectorAll('.box')
+    .forEach(function(box){
+
+      box.style.background =
+      '#1e1e1e';
+
+      box.style.color =
+      'white';
+
+    });
+
+  }
+
+}
+
+
+
+function simpanSoal(){
+
+  let data = {
+
+    mapel:
+    document.getElementById('mapelInput').value,
+
+    soal:
+    document.getElementById('soalInput').value,
+
+    gambar:
+    document.getElementById('gambarInput').value,
+
+    a:
+    document.getElementById('a').value,
+
+    b:
+    document.getElementById('b').value,
+
+    c:
+    document.getElementById('c').value,
+
+    d:
+    document.getElementById('d').value,
+
+    benar:
+    document.getElementById('benar').value
+
+  };
+
+  google.script.run
+  .withSuccessHandler(function(){
+
+    Swal.fire({
+
+      icon:'success',
+
+      title:'Berhasil',
+
+      text:'Soal berhasil disimpan'
+
+    });
+
+  })
+  .saveQuestion(data);
+
+}
+
+window.onload = function(){
+
+  let nama =
+  localStorage.getItem('nama');
+
+  if(nama){
+
+    let avatar =
+    localStorage.getItem('avatar') || '👦';
+
+    document.getElementById(
+    'namaSiswa'
+    ).innerText =
+
+    avatar + ' Halo ' + nama + ' 👋';
+
+    showPage('dashboardPage');
+
+    loadMapel();
+
+    loadLeaderboard();
+
+  }
+
+}
+
+function tambahUser(){
+
+  let username =
+  document.getElementById(
+  'userBaru'
+  ).value;
+
+  let password =
+  document.getElementById(
+  'passBaru'
+  ).value;
+
+  if(username == '' || password == ''){
+
+    Swal.fire({
+
+      icon:'warning',
+
+      title:'Oops',
+
+      text:'Isi semua data'
+
+    });
+
+    return;
+
+  }
+
+  google.script.run
+
+  .withSuccessHandler(function(){
+
+    Swal.fire({
+
+      icon:'success',
+
+      title:'Berhasil',
+
+      text:'User berhasil ditambahkan'
+
+    });
+
+    document.getElementById(
+    'userBaru'
+    ).value = '';
+
+    document.getElementById(
+    'passBaru'
+    ).value = '';
+
+  })
+
+  .saveUser(
+
+    username,
+    password
+
+  );
+
+}
+
+function logout(){
+
+  localStorage.removeItem('nama');
+
+  localStorage.removeItem('avatar');
+
+  document
+  .querySelectorAll('.page')
+  .forEach(function(p){
+
+    p.classList.remove('active');
+
+  });
+
+  document
+  .getElementById('loginPage')
+  .classList.add('active');
+
+  document.getElementById(
+  'username'
+  ).value = '';
+
+  document.getElementById(
+  'password'
+  ).value = '';
+
+}
+
+function resetNilai(){
+
+  Swal.fire({
+
+    title:'Reset Semua Nilai?',
+
+    text:'Leaderboard akan dihapus',
+
+    icon:'warning',
+
+    showCancelButton:true,
+
+    confirmButtonText:'Ya Hapus'
+
+  })
+
+  .then((result)=>{
+
+    if(result.isConfirmed){
+
+      google.script.run
+
+      .withSuccessHandler(function(){
+
+        Swal.fire({
+
+          icon:'success',
+
+          title:'Berhasil',
+
+          text:'Leaderboard direset'
+
+        });
+
+        loadLeaderboard();
+
+      })
+
+      .resetLeaderboard();
+
+    }
+
+  });
+
+}
+
+function hapusSemuaSoal(){
+
+  Swal.fire({
+
+    title:'Hapus Semua Soal?',
+
+    text:'Semua soal akan dihapus permanen',
+
+    icon:'warning',
+
+    showCancelButton:true,
+
+    confirmButtonText:'Ya Hapus',
+
+    cancelButtonText:'Batal'
+
+  })
+
+  .then((result)=>{
+
+    if(result.isConfirmed){
+
+      google.script.run
+
+      .withSuccessHandler(function(){
+
+        Swal.fire({
+
+          icon:'success',
+
+          title:'Berhasil',
+
+          text:'Semua soal dihapus'
+
+        });
+
+        loadMapel();
+
+      })
+
+      .hapusSemuaSoal();
+
+    }
+
+  });
+
+}
+
+</script>
+
+<!-- ADMIN PAGE -->
+
+<div id="adminPage"
+class="page">
+
+<div class="box">
+
+<h1>🛠️ Admin Panel</h1>
+
+<input
+type="text"
+id="mapelInput"
+placeholder="Mapel">
+
+<input
+type="text"
+id="soalInput"
+placeholder="Soal">
+
+<input
+type="text"
+id="gambarInput"
+placeholder="Link Gambar">
+
+<input
+type="text"
+id="a"
+placeholder="Pilihan A">
+
+<input
+type="text"
+id="b"
+placeholder="Pilihan B">
+
+<input
+type="text"
+id="c"
+placeholder="Pilihan C">
+
+<input
+type="text"
+id="d"
+placeholder="Pilihan D">
+
+<input
+type="text"
+id="benar"
+placeholder="Jawaban Benar">
+
+<button onclick="simpanSoal()">
+💾 Simpan Soal
+</button>
+
+<button onclick="showPage('userPage')">
+➕ Tambah User
+</button>
+
+<button onclick="resetNilai()">
+🗑️ Reset Leaderboard
+</button>
+
+<button onclick="hapusSemuaSoal()">
+🗑️ Hapus Semua Soal
+</button>
+
+<button onclick="showPage('dashboardPage')">
+⬅️ Kembali
+</button>
+
+</div>
+
+</div>
+
+<!-- USER PAGE -->
+
+<div id="userPage"
+class="page">
+
+<div class="box">
+
+<h1>👤 Tambah User</h1>
+
+<input
+type="text"
+id="userBaru"
+placeholder="Username">
+
+<input
+type="password"
+id="passBaru"
+placeholder="Password">
+
+<button onclick="tambahUser()">
+💾 Simpan User
+</button>
+
+<button onclick="showPage('adminPage')">
+⬅️ Kembali
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+window.addEventListener(
+
+'load',
+
+function(){
+
+  setTimeout(function(){
+
+    window.scrollTo(0,1);
+
+  },100);
+
+}
+
+);
+
+</script>
+
+</body>
+
+</html>
